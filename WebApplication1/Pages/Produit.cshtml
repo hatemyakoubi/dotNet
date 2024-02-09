@@ -1,0 +1,33 @@
+﻿@page
+@model WebApplication1.Pages.ProduitModel
+@{
+    ViewData["Title"] = "Gestion Produits";
+}
+    <h1>Products</h1>
+    <table class="table">
+            <tr>
+            <th>Product Name</th>
+            <th>Brand Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            </tr>
+        @foreach (var po in Model.Products)
+        {
+            <tr>
+                <td>@po.ProductName</td>
+                <td> @po.Brand.BrandName</td>
+                <td>@po.Category.CategoryName</td>
+                <td>
+                    @if (po.Quantity == 0)
+                    {
+                        <text>Non dispo</text>
+                    }
+                    else
+                    {
+                        @po.Quantity
+                    }
+                </td>
+            </tr>
+
+        }
+    </table>
