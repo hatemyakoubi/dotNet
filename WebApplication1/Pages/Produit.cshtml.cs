@@ -13,12 +13,13 @@ namespace WebApplication1.Pages
             this.demoContext = demoContext;
         }
         public List<Product> Products { get; set; }
-        public void OnGet()
+        public void OnGet(int? productId)
         {
-            Products = demoContext.Products
+            IQueryable<Product> Querry = demoContext.Products
                  .Include(p => p.Category)
                  .Include(p => p.Brand)
                  .Include(p => p.Stocks)
+                 .Include(p => p.OrderItems)
                  .Select(p => new Product
                  {
                      ProductId = p.ProductId,
@@ -26,8 +27,14 @@ namespace WebApplication1.Pages
                      Brand = p.Brand,
                      Category = p.Category,
                      Quantity = p.Stocks.Sum(s => s.Quantity)
-                 })
-                 .ToList();
+                 });
+            if (productId.HasValue)
+            {
+                Querry = Querry.Where(p => p.ProductId == productId);
+
+            }
+            Products = Querry.ToList();
+
         }
     }
 }

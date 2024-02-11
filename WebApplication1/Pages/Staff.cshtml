@@ -1,0 +1,57 @@
+﻿@page
+@model WebApplication1.Pages.StaffModel
+@{
+    ViewData["Title"] = "Staff List";
+}
+<h1>Staff List</h1>
+<table class="table">
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Active</th>
+        <th>Is Manager</th>
+        <th>Staffs</th>
+    </tr>
+    @foreach (var st in Model.Staffs)
+    {
+        <tr>
+            <td>@st.FirstName</td>
+            <td> @st.LastName</td>
+            <td>@st.Email</td>
+            <td>@st.Phone</td>
+            <td>
+                @if (st.Active == 1){
+                    <span>IsActivate</span>
+                }
+                else
+                {
+                    <span>Deactivate</span>
+                }
+            </td>
+            <td>
+                @if (st.InverseManager.Count > 0)
+                {
+                    <span>YES</span>
+                }
+                else
+                {
+                    <span>No</span>
+                }
+            </td>
+            <td>
+                @if (st.InverseManager.Count > 0)
+                {
+                    @foreach (var manager in st.InverseManager)
+                {
+                        <li>@manager.FirstName @manager.LastName </li>
+                }
+                    
+                }
+            </td>
+        </tr>
+
+    }
+</table>
+
